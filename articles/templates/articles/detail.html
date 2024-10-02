@@ -1,0 +1,35 @@
+{% extends "base.html" %} 
+{% comment %} 템플릿 상속받기 {% endcomment %}
+
+{% block content %}
+
+<h2> Detail </h2>
+
+{% comment %} article은 view의 key다. {% endcomment %}
+<h3> {{article.pk}} 번째 게시글 </h3>
+
+<hr>
+
+<h3> title : <br> </h3> <p> {{article.title}}</p>
+<h3> content : <br> </h3> <p> {{article.content}}</p>
+<h3> created_at : <br> </h3>  <p>{{article.created_at}}</p>
+<h3> updated_at : <br> </h3>  <p>{{article.updated_at}}</p>
+
+<form action="{% url "articles:delete" article.pk %}" method= POST>
+  {% csrf_token %}
+  {% comment %} value는 초기값 초기 페이지에 뜨는 글을 delete로 하겠다. {% endcomment %}
+  <input type="submit" value= "delete">
+</form>
+
+<hr>
+{% comment %} update {% endcomment %}
+<a href="{% url "articles:edit" article.pk %}">[EDIT]</a>
+{% comment %} delete {% endcomment %}
+{% comment %} <a href="{% url "articles:delete" article.pk %}">[DELETE]</a> {% endcomment %}
+{% comment %} back {% endcomment %}
+{% comment %} 왔다갔다 편하게 하려고 urls.py에서 앱 네임, 기능 네임을 붙인 것  {% endcomment %}
+<a href="{% url "articles:index" %}">[BACK]</a>
+
+{% endblock content %}
+
+

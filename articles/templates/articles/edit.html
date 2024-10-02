@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h2> Edit </h2>
+
+{% comment %} article은 view의 key다. {% endcomment %}
+
+<hr>
+
+{% comment %} 
+form 태그로 POST 방식을 사용해 url을 1 -> 2 로 보낸다 ? 
+1. url의 create 로 보내야 하나 ? 
+2. view.py create() 함수의 인자, request로 들어가야 하나 ? 
+{% endcomment %}
+
+<form action="{% url "articles:update" article.pk %}" method= "POST">
+  {% csrf_token %}
+  <div>
+    <label for="title">Title: </label>
+    {% comment %} 아래 name='title'은 views.py의 request.POST.get()의 인자, 'title'과 연관있다. {% endcomment %}
+    {% comment %} 위 for='title'과 아래 id='title'은 관련있다. {% endcomment %}
+    <input type="text" name='title' id='title' value='{{article.title}}'>
+
+  </div>
+
+  <div>
+    <label for="content"> Content: </label>
+    <textarea name="content" id="content" cols="30" rows="10">{{article.content}}</textarea>
+  </div>
+
+  <input type="submit" value="수정하기">
+
+</form>
+<a href="{% url "articles:index" %}">[HOME]</a>
+
+<hr> 
+
+
+{% endblock content %}
+
+
+
+
+

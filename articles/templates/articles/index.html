@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>안녕하세요, {{user.username}}님. </h3>
+<h1>게시판</h1>
+
+{% if request.user.is_authenticated %}
+
+  {% comment %} <a href="{% url "accounts:logout" %}" method='POST'>로그아웃</a> {% endcomment %}
+  <form action="{% url "accounts:logout" %}"method='POST'>
+    {% csrf_token %}
+    <input type="submit" value="로그아웃">
+  </form>
+  {% comment %} <a href="{% url "articles:new" %}">New</a> {% endcomment %}
+  <form action="{% url "articles:new" %}">
+    <input type="submit" value="새 게시글 생성">
+  </form>
+  <form action="{% url "accounts:delete" %}">
+    {% csrf_token %}
+    <input type="submit" value="회원 탈퇴">
+  </form>
+  <form action="{% url "accounts:update" %}">
+    <input type="submit" value="회원정보 수정">
+  </form>
+
+{% else %}
+
+  <a href="{% url "accounts:login" %}">로그인</a>
+  <a href="{% url "accounts:signup" %}">회원가입</a>
+
+{% endif %}
+
+<hr>
+
+
+{% for article in articles %}
+  {% comment %} DTL 변수 {% endcomment %}
+
+  <p> 글 ID : {{article.pk}} {% comment %} 객체.속성 접근{% endcomment %} </p>
+
+  <a href="{% url "articles:detail" article.pk %}">
+    <p> 글 제목 : {{article.title}} </p>
+  </a>
+  
+  <p> 글 내용 : {{article.content}} </p>
+  <hr>
+{% endfor %}
+
+{% endblock content %}
+
+
